@@ -140,5 +140,5 @@ if __name__ == "__main__":
                'bond_ids':'',
                'rp':50,
                'page':1}
-    req = requests.post(url=target,params=params,data=payload)
+    req = requests.post(url=target,params=params,data=payload,verify=False)
     StatisticsJson(req.json())
