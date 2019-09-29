@@ -17,9 +17,9 @@ def StatisticsJson(jsondate):
 
     cb_Less90_count = 0
     cb_Less90_list = []
-    cb_Less90_max_ytm = 0
+    cb_Less90_max_ytm = 0           #收益率
     cb_Less90_max_ytm_name = 0
-    cb_Less90_min_premium = 0
+    cb_Less90_min_premium = 0       #溢价率率
     cb_Less90_min_premium_name = 0
 
     cb_Less95_count = 0
@@ -49,7 +49,9 @@ def StatisticsJson(jsondate):
     cb_3A_max_ytm_cb = 0
     cb_3A_min_premium = 0
     cb_3A_min_premium_cb = 0
-
+    
+    cb_3A_max_ytm = cb_Less90_max_ytm = cb_Less95_max_ytm = cb_Less100_max_ytm = cb_Larger125_max_ytm = -100 #初始化最高收益率
+    cb_3A_min_premium = cb_Less90_min_premium = cb_Less95_min_premium = cb_Less100_min_premium = cb_Larger125_min_premium= 100 #初始化最小溢价率        
     
     total = jsondate['total']
     total_list = jsondate['rows']
@@ -57,11 +59,11 @@ def StatisticsJson(jsondate):
     for item in items:
         name = item['cell']['bond_nm']
         if name[2] == '转':
-            cb_total = cb_total + 1
+            cb_total = cb_total + 1            
             ytm = float(item['cell']['ytm_rt'].split('%')[0])
             premium = float(item['cell']['premium_rt'].split('%')[0])
             price = float(item['cell']['price'])
-            rating = item['cell']['rating_cd'] 
+            rating = item['cell']['rating_cd']            
             if rating == 'AAA':
                 cb_3A_list.append(item)
                 cb_3A_count = cb_3A_count + 1
