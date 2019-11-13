@@ -50,7 +50,7 @@ def analyzecomments(comments_json):
     print('当前评价页面总评价数：{}'.format(comment_count))
 
 # 打印结果   
-def  print_restult():
+def  print_result():
     print('总评论数：{} 件'.format(commentCount))
     print('L码{}件，占比：{} %'.format(L, get_two_float(L*100/commentCount, 2)))
     print('M码{}件，占比：{} %'.format(M, get_two_float(M*100/commentCount, 2)))
@@ -108,7 +108,8 @@ if __name__ == "__main__":
         while comments_json == 0:        
             time.sleep(5)
             comments_json = getcomments(i)
-        analyzecomments(comments_json)  
+        analyzecomments(comments_json)
+    print_result() 
 
     
 
