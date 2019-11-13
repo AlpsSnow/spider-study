@@ -5,88 +5,110 @@ import time
 maxPage = 0
 commentCount = 0
 
+L = 0   #L码销量
+M = 0   #M码销量
+productSize = ""
+comment_content = []    #所有评论内容
+productColor = ""
+blackcolors = 0         #黑色销量
+whitecolors = 0         #白色销量
+skincolors = 0          #肤色销量
+
+L_size = "" #L码的尺寸
+M_size = "" #M码的尺寸
+
+# 小数点后取两位
 def get_two_float(f_str, n):
     f_str = str(f_str)
     a, b, c = f_str.partition('.')
     c = (c+"0"*n)[:n]
     return ".".join([a, c])
 
-def analyzecomments(comments_list):
-    L = 0
-    M = 0
-    productSize = ""
-    comment_content = []
-    productColor = ""
-    blackcolors = 0
-    whitecolors = 0
-    skincolors = 0
-    
-    for comments in comments_list:
-        for comment in comments['comments']:
-            comment_content.append(comment['content'])
-            productColor = comment['productColor']
-            if productColor == "经典-黑色":
-                blackcolors += 1
-            elif productColor == "经典-白色":
-                whitecolors += 1
-            else :
-                skincolors += 1
-            productSize = comment['productSize']
-            if productSize == "L":
-                L += 1
-            else :
-                M += 1
-            print('L：{},M: {}, size:{}; blackcolors:{},whitecolors:{},skincolors:{},productColor:{}'.format(L,M, productSize, blackcolors,whitecolors,skincolors,productColor))
+# 解析每一页的评论
+def analyzecomments(comments_json):
+    comment_count = 0
+    for comment in comments_json['comments']:
+        comment_count += 1
+        comment_content.append(comment['content'])
+        productColor = comment['productColor']
+        if productColor.find('黑') != -1:
+            blackcolors += 1
+        elif productColor.find('白') != -1:
+            whitecolors += 1
+        elif productColor.find('肤') != -1:
+            skincolors += 1
+        else:
+            pass
+        productSize = comment['productSize']
+        if productSize.find('L') != -1:
+            L += 1
+        elif productSize.find('M') != -1:
+            M += 1
+        else:
+            pass            
+        print('每一条评价的具体信息：L：{},M: {}, size:{}; blackcolors:{},whitecolors:{},skincolors:{},productColor:{}'.format(L,M, productSize, blackcolors,whitecolors,skincolors,productColor))
+    print('当前评价页面总评价数：{}'.format(comment_count))
+
+# 打印结果   
+def  print_restult():
     print('总评论数：{} 件'.format(commentCount))
     print('L码{}件，占比：{} %'.format(L, get_two_float(L*100/commentCount, 2)))
     print('M码{}件，占比：{} %'.format(M, get_two_float(M*100/commentCount, 2)))
     print('黑色{}件，占比：{} %'.format(blackcolors, get_two_float(blackcolors*100/commentCount, 2)))
     print('白色{}件，占比：{} %'.format(whitecolors, get_two_float(whitecolors*100/commentCount, 2)))
     print('肤色{}件，占比：{} %'.format(skincolors, get_two_float(skincolors*100/commentCount, 2)))
-    
-    
+
+# 获取每一页评论 
 def getcomments(page):
     url = 'https://sclub.jd.com/comment/productPageComments.action'
+
+    # 请求参数
     payload = {
         'callback': 'fetchJSON_comment98vv891',
-        'productId': 1578086,
+        'productId': 1578086,                       # 商品ID
         'score': 0,
         'sortType':	5,
-        'page': page,
-        'pageSize': 10,
+        'page': page,                               # 想要获取第几页的评价
+        'pageSize': 10,                             # 每一页评价数
         'isShadowSku': 0,
         'fold': 1
         }
+
+    # 请求头部，应对反爬虫
     headers = {
-        'Referer': 'https://item.jd.com/1578086.html?dist=jd',
-        'User-Agent': 'Mozilla/5.0'
+        'Referer': 'https://item.jd.com/1578086.html?dist=jd',  #告诉服务器该网页是从哪个页面链接过来的
+        'User-Agent': 'Mozilla/5.0'     #告诉服务器该请求的用户代理软件的应用类型、操作系统、软件开发商以及版本号
     }
+
+    # 发起请求
     req = requests.get(url=url,params=payload,verify=False, headers=headers)
     if req.status_code == 200:
-        comments_str = req.text[25:-2]
-        #print(comments_str)
-        comments_json = json.loads(comments_str)
-        #print(comments_json)
+        print('请求成功 status_code =200！')
+        comments_str = req.text[25:-2]              #解析返回字符串，截取json字符串
+        comments_json = json.loads(comments_str)    #json字符串转dict型
         return comments_json
     else:
-        print("请求失败！")
+        print('请求失败！')
         return 0
 
 if __name__ == "__main__":
-    comments_list = []   
+    # 获取第一页评论   
     comments_json = getcomments(0)
-    comments_list.append(comments_json)
-    maxPage = comments_json['maxPage']    
+    # 评价的最大页数    
+    maxPage = comments_json['maxPage']
+    print('评价的最大页数:{}'.format(maxPage))
+    # 总的评论数
     commentCount = comments_json['productCommentSummary']['commentCount']
-    
+    print('总的评论数:{}'.format(commentCount))
+
+    # 获取第二页~最后一页的请求
     for i in range(1,maxPage+1):
         time.sleep(5)
         comments_json = getcomments(i)
         while comments_json == 0:        
             time.sleep(5)
             comments_json = getcomments(i)
-        comments_list.append(comments_json)
-    analyzecomments(comments_list)
+        analyzecomments(comments_json)  
 
     
 
