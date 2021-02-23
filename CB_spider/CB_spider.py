@@ -59,8 +59,11 @@ def StatisticsJson(jsondate):
     for item in items:
         name = item['cell']['bond_nm']
         if name[2] == '转':
-            cb_total = cb_total + 1            
-            ytm = float(item['cell']['ytm_rt'].split('%')[0])
+            cb_total = cb_total + 1           
+            if item['cell']['ytm_rt'] != '-':
+                ytm = float(item['cell']['ytm_rt'].split('%')[0])
+            else:
+            	ytm = float(0)
             premium = float(item['cell']['premium_rt'].split('%')[0])
             price = float(item['cell']['price'])
             rating = item['cell']['rating_cd']            
