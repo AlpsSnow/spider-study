@@ -140,17 +140,17 @@ if __name__ == "__main__":
                'ytm_rt':'',
                'rating_cd':'',
                'is_search':'N',
-               'market_cd':['shmb','shkc','szmb','szcy'],
+               'market_cd':[], # 'shmb','shkc','szmb','szcy'
                'btype':'',
                'listed':'Y',
                'qflag':'N',
                'sw_cd':'',
-               'industry':'',
+               #'industry':'',
                'bond_ids':'',
-               'rp':50,
-               'page':1}
+               'rp':'50',
+               'page':'1'}
     cookies={}
-    cookies['Hm_lpvt_164fe01b1433a19b507595a43bf58262']=str(int(time.time()))
+    cookies['Hm_lpvt_164fe01b1433a19b507595a43bf58262']=str(LST_time)
     cookies['Hm_lvt_164fe01b1433a19b507595a43bf58262']='1626921687,1627000170,1627017807,1627260573'
     cookies['kbz_newcookie']='1'
     cookies['kbzw__Session']='3f9tjgiprevqdrf1n5fd18k2n5'
