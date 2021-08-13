@@ -121,8 +121,9 @@ def analyzeJson(jsondate):
                     cb_Larger125_min_premium = premium
                     cb_Larger125_min_premium_name = name
 
+    print ('统计时间: {}'.format(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())))
+    print()
     print('{} 可转债价格统计： {}'.format('-'*20,'-'*20))
-    print (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()))
     print('可转债个数：', cb_total)
     print('跌破90元,占比：{}%（历史最低：占11%）'.format(get_two_float(cb_Less90_count*100/cb_total, 2))) 
     print('跌破95元,占比：{}%（历史最低：占18%）'.format(get_two_float((cb_Less90_count+cb_Less95_count)*100/cb_total, 2)))
@@ -148,12 +149,12 @@ def analyzeJson(jsondate):
     else:
         starStr = '★★★★★'
     print('{} 可转债投资星级： {}'.format('*'*20,'*'*20))
-    print('{}星级{}估值{}中位价格{}建议仓位'.format('|-','-|-','|-','-|'))
-    print('{}一星{}高估{}120以上{}20%'.format('|-','-|-','|-','-|'))
-    print('{}二星{}偏高{}115-120{}30%'.format('|-','-|-','|-','-|'))
-    print('{}三星{}合理{}110-115{}50%'.format('|-','-|-','|-','-|'))
-    print('{}四星{}偏低{}100-110{}70%'.format('|-','-|-','|-','-|'))
-    print('{}五星{}低估{}100以下{}30%'.format('|-','-|-','|-','-|'))
+    print('{}星级{}估值{}中位价格{}建议仓位'.format('|---','---|-','-|-','-|'))
+    print('{}★{}高估{}120以上{}20%'.format('|---','-----|-','-|-','-|'))
+    print('{}★★{}偏高{}115-120{}30%'.format('|--','----|-','-|-','-|'))
+    print('{}★★★{}合理{}110-115{}50%'.format('|--','--|-','-|-','-|'))
+    print('{}★★★★{}偏低{}100-110{}70%'.format('|-','-|-','-|-','-|'))
+    print('{}★★★★★{}低估{}100以下{}30%'.format('|','|-','-|-','-|'))
 
     print('中位价格：{}，投资星级：{}'.format(str(median),starStr))
     return True
@@ -184,7 +185,7 @@ if __name__ == "__main__":
     cookies['Hm_lpvt_164fe01b1433a19b507595a43bf58262']=str(LST_time)
     cookies['Hm_lvt_164fe01b1433a19b507595a43bf58262']=str(int(time.time()))+','+str(int(time.time()))+','+str(int(time.time()))+','+str(int(time.time()))
     cookies['kbz_newcookie']='1'
-    cookies['kbzw__Session']='a0jojn8bhsjb4jf1jo4nr3rgb2'
+    cookies['kbzw__Session']='g88ubfdqolsck52uskr6d5k3p1'
     cookies['kbzw__user_login']='7Obd08_P1ebax9aXuEr4Al0pFF4UBUgCIpakptzY1enY5unX1r6bl6mt2c3dobCap8Sup9mtk9KT1a6lmtucqMatlqiro6-Cq47p4tnH1peola6VqaiUs47FotLWoLbo5uDO4sKmrKGogZi43efZ2PDfl7DKgainoaickLjd56udtIzvmKqcl-npspqgj6SilbDez-LRpZOnqKOokqCSlL_e297S5tqlmqelow..'
     username='A股没法玩'
     name=username.encode("utf-8").decode('latin1') #文字utf8编码
