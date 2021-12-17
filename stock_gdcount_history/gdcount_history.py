@@ -82,7 +82,7 @@ if __name__ == "__main__":
     host.xaxis.set_major_locator(mdates.MonthLocator(interval=3))
     host.axis['bottom'].major_ticklabels.set_rotation(-45)
 
-    host.set_title("行情和股东信息")
+    host.set_title(sys.argv[1]+"行情和股东信息")
     host.set_ylabel("收盘")
     par1.set_ylabel("股东户数(万)")
     par2.set_ylabel("户均持股数量(万)")
